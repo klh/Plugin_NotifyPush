@@ -4,7 +4,7 @@
 
 Modified pushplugin(https://github.com/phonegap-build/PushPlugin) to minimise the data sent from the server to the device.keysare only sent which are to be mapped to the strings saved locally in the application.
 
-Modified PushPlugin the way to display the messages in the notification bar.
+Modified Push-Plugin the way to display the messages in the notification bar.
 Meassages sent from the server contains the key to display the messages.
 And keys are mapped to strings which u can save in localised files for each platform separately.
 Android:(%projdir%/res/values/string.xml) and IOS:(%ProjDir%/Resources/en.lproj).
