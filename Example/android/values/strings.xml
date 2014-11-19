@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">wiser</string>
+    <string name="app_name">WiserPlugin</string>
+    <string name="launcher_name">@string/app_name</string>
+    <string name="activity_name">@string/launcher_name</string>
     <string name="AUTO_TEST_STARTED">System Auto Test started.</string>
     <string name="DEVICE_BATTERY_FAILED">%%s %%s has run out of battery. Replace the batteries.</string>
     <string name="DEVICE_NOT_RESPONDING">%%s %%s is not responding, please check the power supply or wireless communication.</string>
