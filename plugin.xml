@@ -83,7 +83,12 @@
 
 		<source-file src="src/ios/AppDelegate+notification.m" />
 		<source-file src="src/ios/PushPlugin.m" />
-
+		<resource-file src='Plugin_NotifyPush/Example/ios/en.lproj' />
+		<resource-file src='Plugin_NotifyPush/Example/ios/da.lproj' />
+		<resource-file src='Plugin_NotifyPush/Example/ios/fr.lproj' />
+		<resource-file src='Plugin_NotifyPush/Example/ios/it.lproj' />
+		<resource-file src='Plugin_NotifyPush/Example/ios/nb.lproj' />
+		<resource-file src='Plugin_NotifyPush/Example/ios/sv.lproj' />
 		<header-file src="src/ios/AppDelegate+notification.h" />
 		<header-file src="src/ios/PushPlugin.h" />
 
