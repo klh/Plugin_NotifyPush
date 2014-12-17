@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:amazon="http://schemas.android.com/apk/lib/com.amazon.device.ads"
     id="com.eh.plugins.PushPlugin"
-    version="1.0.0">
+    version="1.0.1">
 
   <name>PushPlugin</name>
 	<author>connectedhome</author>
