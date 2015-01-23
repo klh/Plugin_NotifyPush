@@ -16,13 +16,15 @@
 
 	<license>MIT</license>
 
-	<js-module src="www/PushNotification.js" name="PushNotification">
+	<js-module src="resources/www/PushNotification.js" name="PushNotification">
         <clobbers target="PushNotification" />
 	</js-module>
 
-	<engines>
-		<engine name="cordova" version=">=3.0.0" />
-	</engines>
+    <engines>
+        <engine name="cordova" version=">=4.2.0" />
+        <engine name="cordova-android" version=">=4.2.0" />
+        <engine name="cordova-ios" version=">=4.2.0" />
+    </engines>
 
 	<!-- android -->
 	<platform name="android">
@@ -65,34 +67,34 @@
 		<source-file src="src/android/com/google/android/gcm/GCMConstants.java" target-dir="src/com/google/android/gcm/" />
 		<source-file src="src/android/com/google/android/gcm/GCMRegistrar.java" target-dir="src/com/google/android/gcm/" />
 
-		<resource-file src="Example/android/values/strings.xml" target="res/values/strings.xml" />
-		<resource-file src="Example/android/values/string-de.xml" target="res/values-de/strings.xml" />
-		<resource-file src="Example/android/values/string-da.xml" target="res/values-da/strings.xml" />
-		<resource-file src="Example/android/values/string-fr.xml" target="res/values-fr/strings.xml" />
-		<resource-file src="Example/android/values/string-it.xml" target="res/values-it/strings.xml" />
-		<resource-file src="Example/android/values/string-nb.xml" target="res/values-nb/strings.xml" />
-		<resource-file src="Example/android/values/string-sv.xml" target="res/values-sv/strings.xml" />
-		
-		<resource-file src="Example/android/drawable/advisory.png" target="res/drawable/advisory.png" />
-		<resource-file src="Example/android/drawable/critical.png" target="res/drawable/critical.png" />
-		<resource-file src="Example/android/drawable/important.png" target="res/drawable/important.png" />
-		
-		<resource-file src="Example/android/drawable/advisory.png" target="res/drawable-mdpi/advisory.png" />
-		<resource-file src="Example/android/drawable/critical.png" target="res/drawable-mdpi/critical.png" />
-		<resource-file src="Example/android/drawable/important.png" target="res/drawable-mdpi/important.png" />
-		
-		<resource-file src="Example/android/drawable/advisory.png" target="res/drawable-hdpi/advisory.png" />
-		<resource-file src="Example/android/drawable/critical.png" target="res/drawable-hdpi/critical.png" />
-		<resource-file src="Example/android/drawable/important.png" target="res/drawable-hdpi/important.png" />
-		
-		<resource-file src="Example/android/drawable/advisory.png" target="res/drawable-xhdpi/advisory.png" />
-		<resource-file src="Example/android/drawable/critical.png" target="res/drawable-xhdpi/critical.png" />
-		<resource-file src="Example/android/drawable/important.png" target="res/drawable-xhdpi/important.png" />
-		
-		<resource-file src="Example/android/drawable/advisory.png" target="res/drawable-xxhdpi/advisory.png" />
-		<resource-file src="Example/android/drawable/critical.png" target="res/drawable-xxhdpi/critical.png" />
-		<resource-file src="Example/android/drawable/important.png" target="res/drawable-xxhdpi/important.png" />
-		
+		<resource-file src="resources/android/values/strings.xml" target="res/values/strings.xml" />
+		<resource-file src="resources/android/values/string-de.xml" target="res/values-de/strings.xml" />
+		<resource-file src="resources/android/values/string-da.xml" target="res/values-da/strings.xml" />
+		<resource-file src="resources/android/values/string-fr.xml" target="res/values-fr/strings.xml" />
+		<resource-file src="resources/android/values/string-it.xml" target="res/values-it/strings.xml" />
+		<resource-file src="resources/android/values/string-nb.xml" target="res/values-nb/strings.xml" />
+		<resource-file src="resources/android/values/string-sv.xml" target="res/values-sv/strings.xml" />
+
+		<resource-file src="resources/android/drawable/advisory.png" target="res/drawable/advisory.png" />
+		<resource-file src="resources/android/drawable/critical.png" target="res/drawable/critical.png" />
+		<resource-file src="resources/android/drawable/important.png" target="res/drawable/important.png" />
+
+		<resource-file src="resources/android/drawable/advisory.png" target="res/drawable-mdpi/advisory.png" />
+		<resource-file src="resources/android/drawable/critical.png" target="res/drawable-mdpi/critical.png" />
+		<resource-file src="resources/android/drawable/important.png" target="res/drawable-mdpi/important.png" />
+
+		<resource-file src="resources/android/drawable/advisory.png" target="res/drawable-hdpi/advisory.png" />
+		<resource-file src="resources/android/drawable/critical.png" target="res/drawable-hdpi/critical.png" />
+		<resource-file src="resources/android/drawable/important.png" target="res/drawable-hdpi/important.png" />
+
+		<resource-file src="resources/android/drawable/advisory.png" target="res/drawable-xhdpi/advisory.png" />
+		<resource-file src="resources/android/drawable/critical.png" target="res/drawable-xhdpi/critical.png" />
+		<resource-file src="resources/android/drawable/important.png" target="res/drawable-xhdpi/important.png" />
+
+		<resource-file src="resources/android/drawable/advisory.png" target="res/drawable-xxhdpi/advisory.png" />
+		<resource-file src="resources/android/drawable/critical.png" target="res/drawable-xxhdpi/critical.png" />
+		<resource-file src="resources/android/drawable/important.png" target="res/drawable-xxhdpi/important.png" />
+
 	</platform>
 
  	<!-- ios -->
@@ -106,12 +108,12 @@
 
 		<source-file src="src/ios/AppDelegate+notification.m" />
 		<source-file src="src/ios/PushPlugin.m" />
-		<!--resource-file src='Example/ios/en.lproj' />
-		<resource-file src='Example/ios/da.lproj' />
-		<resource-file src='Example/ios/fr.lproj' />
-		<resource-file src='Example/ios/it.lproj' />
-		<resource-file src='Example/ios/nb.lproj' />
-		<resource-file src='Example/ios/sv.lproj' / -->
+		<resource-file src='resources/ios/en.lproj/Localizable.strings' />
+		<resource-file src='resources/ios/da.lproj/' />
+		<resource-file src='resources/ios/fr.lproj/Localizable.strings' />
+		<resource-file src='resources/ios/it.lproj/' />
+		<resource-file src='resources/ios/nb.lproj/' />
+		<resource-file src='resources/ios/sv.lproj/' />
 		<header-file src="src/ios/AppDelegate+notification.h" />
 		<header-file src="src/ios/PushPlugin.h" />
 
