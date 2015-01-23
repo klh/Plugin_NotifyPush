@@ -50,6 +50,8 @@ Add the `PushNotification.js` script to your assets/www folder (or javascripts f
 ```html
 <script type="text/javascript" charset="utf-8" src="PushNotification.js"></script>
 ```
+Optional:
+add Localizaton folders(en.lproj,de.lproj,fr.lproj......etc) in Resource/ directory present in Xcode project.
 
 **Android**
 
@@ -149,7 +151,7 @@ The plugin can be installed via the Cordova command line interface:
 1) Navigate to the root folder for your phonegap project. 2) Run the command.
 
 ```sh
-cordova plugin add https://github.com/phonegap-build/PushPlugin.git
+cordova plugin add https://github.com/connectedhome/Plugin_NotifyPush.git
 ```
 
 ### Phonegap
@@ -159,7 +161,7 @@ The plugin can be installed using the Phonegap command line interface:
 1) Navigate to the root folder for your phonegap project. 2) Run the command.
 
 ```sh
-phonegap local plugin add https://github.com/phonegap-build/PushPlugin.git
+phonegap local plugin add https://github.com/connectedhome/Plugin_NotifyPush.git
 ```
 
 ### Plugman
@@ -577,7 +579,36 @@ Start at the section entitled "Generating the Certificate Signing Request (CSR)"
 3. Set APNS.pass to the password associated with the certificate you just created. (warning this is cleartext, so don't share this file)
 4. Set device_token to the token for the device you want to send a push to. (you can run the Cordova app / plugin in Xcode and extract the token from the log messages)
 5. Save your changes.
+       Note:There are two gateways to APNS one is sandbox(Developer cer) and another one is ssp(production/distribution cer) please make changes in pushAPNS.rb .
+       The binary interface of the production environment is available through gateway.push.apple.com, port 2195; the binary interface of the development environment is available through gateway.sandbox.push.apple.com, port 2195.
 
+Example Payload to APNS:
+
+Localized Formatted Strings
+You can display localized alert messages in two ways. The server originating the notification can localize the text; to do this, it must discover the current language preference selected for the device (see Passing the Provider the Current Language Preference (Remote Notifications)). Or the client app can store in its bundle the alert-message strings translated for each localization it supports. The provider specifies the loc-key and loc-args properties in the aps dictionary of the notification payload. When the device receives the notification (assuming the app isn’t running), it uses these aps-dictionary properties to find and format the string localized for the current language, which it then displays to the user.
+
+Here’s how that second option works in a little more detail.
+
+An app can internationalize resources such as images, sounds, and text for each language that it supports, Internationalization collects the resources and puts them in a subdirectory of the bundle with a two-part name: a language code and an extension of .lproj (for example, fr.lproj). Localized strings that are programmatically displayed are put in a file called Localizable.strings. Each entry in this file has a key and a localized string value; the string can have format specifiers for the substitution of variable values. When an app asks for a particular resource—say a localized string—it gets the resource that is localized for the language currently selected by the user. For example, if the preferred language is French, the corresponding string value for an alert message would be fetched from Localizable.strings in the fr.lproj directory in the app bundle. (The app makes this request through the NSLocalizedString macro.)
+
+Note: This general pattern is also followed when the value of the action-loc-key property is a string. This string is a key into the Localizable.strings in the localization directory for the currently selected language. iOS uses this key to get the title of the button on the right side of an alert message (the “action” button).
+To make this clearer, let’s consider an example. The provider specifies the following dictionary as the value of the alert property:
+
+"alert" : {
+    "loc-key" : "GAME_PLAY_REQUEST_FORMAT",
+"loc-args" : [ "Jenna", "Frank"]
+}
+When the device receives the notification, it uses "GAME_PLAY_REQUEST_FORMAT" as a key to look up the associated string value in the Localizable.strings file in the .lproj directory for the current language. Assuming the current localization has a Localizable.strings entry such as this:
+
+"GAME_PLAY_REQUEST_FORMAT" = "%@ and %@ have invited you to play Monopoly";
+the device displays an alert with the message “Jenna and Frank have invited you to play Monopoly”.
+
+In addition to the format specifier %@, you can %n$@ format specifiers for positional substitution of string variables. The n is the index (starting with 1) of the array value in loc-args to substitute. (There’s also the %% specifier for expressing a percentage sign (%).) So if the entry in Localizable.strings is this:
+
+"GAME_PLAY_REQUEST_FORMAT" = "%2$@ and %1$@ have invited you to play Monopoly";
+the device displays an alert with the message “Frank and Jenna have invited you to play Monopoly”.
+
+For a full example of a notification payload that uses the loc-key and loc-arg properties, see Examples of JSON Payloads. To learn more about internationalization, see Internationalization and Localization Guide. String formatting is discussed in Formatting String Objects in String Programming Guide.
 
 #### Android/GCM Setup
 [Follow these steps](http://developer.android.com/guide/google/gcm/gs.html) to generate a project ID and a server based API key.
@@ -586,11 +617,38 @@ Start at the section entitled "Generating the Certificate Signing Request (CSR)"
 2. Set the GCM.key variable to the API key you just generated.
 3. Set the destination variable to the Registration ID of the device. (you can run the Cordova app / plugin in on a device via Eclipse and extract the regID from the log messages)
 
+Procedure to create new apikey and senderId is:
+
+1. Create a new project at https://console.developers.google.com/project
+2. Specify project name and the project id is generated automatically
+3. After creating it will take you to dashboard
+4. Go to APIs and Auth>API search for "google cloud messaging for android" and turn it "ON"
+5. Set %ANDROID_HOME% pointing to teh android SDK, add extras and platform_tools to the environmental path
+6. Open cmd and run command "keytool -list -v -keystore "%USERPROFILE%\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android"
+7. Copy the SHA1 from the output
+8. Go back to the developer console
+9. Click on APIs and Auth>Credentials, under public api access click "create new key"
+10. Click "Server Key"
+11. Paste the "SHA1 key""semi colon""package name for the project"
+
+	eg: 19:76:62:EB:20:B2:7D:B3:64:8A:89:E0:41:AC:F3:1E:E5:03:51:FA;com.example.test
+
+12. Copy API key and the Project number from the dashboard, this will be your sender id
+13. Paste the API key in the example server, inside pushplugin master
+14. Paste the senderId/Project number in sender id in js/services/EventListView.js (plugin integration code in app plz reffer Push Plugin Documentation for more details) 
+
+              eg:    pushNotification.register(succCall, errCall, {"senderID":"248905600219","ecb":"onNotification"}); 
+
+15.Testing(optional) : if your have install pushmeup gem, then just call rubj "pushgcm.rb" after pasting the registration key from the device.
+
+
+
+
 ####  Sending a test notification
 
 1. cd to the directory containing the two .rb files we just edited.
 2. Run the Cordova app / plugin on both the Android and iOS devices you used to obtain the regID  / device token, respectively.
-3. `$ ruby pushGCM.rb` or `$ ruby pushAPNS.rb`
+3. `$ ruby pushGCM.rb` or `$ruby pushAPNS.rb`
 
 If you run this demo using the emulator you will not receive notifications from GCM. You need to run it on an actual device to receive messages or install the proper libraries on your emulator (You can follow [this guide](http://www.androidhive.info/2012/10/android-push-notifications-using-google-cloud-messaging-gcm-php-and-mysql/) under the section titled "Installing helper libraries and setting up the Emulator") If everything seems right and you are not receiving a registration id response back from Google, try uninstalling and reinstalling your app. That has worked for some devs out there.
 
@@ -603,7 +661,7 @@ While the data model for iOS is somewhat fixed, it should be noted that GCM is f
 2. Edit the CLIENT_ID and CLIENT_SECRET variables with the values from the ADM Security Profile page for your app. This will allow your app to securely identify itself to Amazon services.
 3. Compile and run the sample app on your device. Note the sample app requires the Cordova Device and Media plugins to work.
 4. The sample app will display your device's registration ID. Copy that value (it's very long) from your device into `pushADM.js`, entered in the REGISTRATION_IDS array. To test sending messages to more than one device, you can enter in multiple REGISTRATION_IDS into the array.
-5. To send a test push notification, run the test script via a command line using NodeJS: `$ node pushADM.js`.
+5. To send a test push notification, run the test script via a command line using NodeJS: `$node pushADM.js`.
 
 
 
